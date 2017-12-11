@@ -35,31 +35,31 @@ def split_email_addresses(line):
 #Parse the emails into a list email objects
 messages = list(map(email.message_from_string, emails_df['message']))
 emails_df.drop('message',axis=1, inplace=True)
+print("Parse the emails into a list email objects")
 #Get fields from parsed email objects
 keys = messages[0].keys()
 for key in keys:
     emails_df[key] = [doc[key] for doc in messages]
+print("Get fields from parsed email objects")
 #Parse content from emails
 emails_df['content'] = list(map(get_text_from_email, messages))
+print("Parse content from emails")
 #Split multiple email addresses
 emails_df['From'] = emails_df['From'].map(split_email_addresses)
 emails_df['To'] = emails_df['To'].map(split_email_addresses)
-
+print("Split multiple email addresses")
 #Extract the root of 'file' as 'user'
 emails_df['user'] = emails_df['file'].map(lambda x:x.split('/')[0])
 emails_df['class'] = emails_df['file'].map(lambda x:x.split('/')[1])
 del messages
-
+print("Extract the root of 'file' as 'user'")
 #emails_df.head()
 
 #Set index and drop columns with two few values
 emails_df = emails_df.set_index('Message-ID').drop(['file','Mime-Version','Content-Type', 'Content-Transfer-Encoding'], axis=1)
-#Parse datetime
-emails_df['Date'] = pd.to_datetime(emails_df['Date'], infer_datetime_format=True)
-emails_df.dtypes
+print("Set index and drop columns with two few values")
 
-shorted_emails_df = emails_df.head(10000)
-shorted_emails_df.to_csv(output_path,sep=',')
+emails_df['class'].value_counts()
 
-
-
+# shorted_emails_df = emails_df.head(10000)
+# shorted_emails_df.to_csv(output_path,sep=',')

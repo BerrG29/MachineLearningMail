@@ -28,11 +28,16 @@ def tokenize(text):
 
 df = pd.read_csv('americasOrCalendar.csv', na_values=['?'],header=0)
 
-X=df['content']
+df["all"] = df["X-To"].map(str) + df["content"].map(str)
+
+X=df['all']
+# print(X)
+# X=df[['content', 'Subject']]
 y=df['class']
 
 vectorizer = TfidfVectorizer(tokenizer=tokenize,sublinear_tf=True,stop_words='english')
-# X=vect.fit_transform(X)
+# vectorizer = TfidfVectorizer(sublinear_tf=True,stop_words='english')
 X = vectorizer.fit_transform(X)
+# # print (X)
 clf = DecisionTreeClassifier(random_state=0)
 print(np.mean(cross_val_score(clf, X, y, cv=10)))

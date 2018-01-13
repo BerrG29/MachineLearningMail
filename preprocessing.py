@@ -9,8 +9,8 @@ import os,sys, email, re
 import pandas as pd
 
 
-input_path = './emails.csv'
-output_path = './shorted_emails.csv'
+input_path = '../emails.csv'
+output_path = '../shorted_emails.csv'
 # Read the data into a DataFrame
 emails_df = pd.read_csv(input_path)
 print(emails_df.shape)   
@@ -61,5 +61,5 @@ print("Set index and drop columns with two few values")
 
 emails_df['class'].value_counts()
 
-# shorted_emails_df = emails_df.head(10000)
-# shorted_emails_df.to_csv(output_path,sep=',')
+emails_df = emails_df.head(350000)
+emails_df.to_csv(output_path,sep=',')

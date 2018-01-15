@@ -6,6 +6,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import cross_val_score
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.naive_bayes import GaussianNB
+from sklearn.model_selection import GridSearchCV
 # nltk.download('punkt')
 # nltk.download('wordnet')
 #stemmer = PorterStemmer()
@@ -36,11 +37,12 @@ X = vectorizer.fit_transform(X)
 ##Naive bayes Gaussian
 #clf = GaussianNB()
 ##Decision tree
-#clf = DecisionTreeClassifier(random_state=0)
+clf = DecisionTreeClassifier(random_state=0)
 ##Neural network
-parameters = {'hidden_layer_sizes ': [(100,),(100,100), (100,100,100)], 'alpha':[10.0 ** -np.arange(1, 7)], 'activation':('identity', 'logistic', 'tanh', 'relu'), 'solver' :('lbfgs', 'sgd', 'adam'), 'learning_rate' : ('constant', 'invscaling', 'adaptive'), 'learning_rate_init':[0.05, 0.01, 0.005, 0.001], 'power_t':[0.1, 0.5, 1, 2]}
-nn=neural_network.MLPClassifier()
-clf = GridSearchCV(nn, parameters)
+#parameters = {'hidden_layer_sizes ': [(100,),(100,100), (100,100,100)], 'alpha':[10.0 ** -np.arange(1, 7)], 'activation':('identity', 'logistic', 'tanh', 'relu'), 'solver' :('lbfgs', 'sgd', 'adam'), 'learning_rate' : ('constant', 'invscaling', 'adaptive'), 'learning_rate_init':[0.05, 0.01, 0.005, 0.001], 'power_t':[0.1, 0.5, 1, 2]}
+#parameters = {'activation':('relu','logistic')}
+#clf=MLPClassifier()
+#clf = GridSearchCV(nn, parameters)
 
 #######################RESULTS##################################################
 print(np.mean(cross_val_score(clf,X, y, cv=10)))

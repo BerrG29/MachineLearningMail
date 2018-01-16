@@ -3,12 +3,13 @@ import numpy as np
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import GridSearchCV
 from sklearn.grid_search import GridSearchCV
-import model.py
-import desciptors.py
+import imports
+from imports import descriptors, model
+
 
 #######################DATASET##################################################
 
-df = pd.read_csv('../shorted_email_1800_500.csv', na_values=['?'],header=0)
+df = pd.read_csv('./americasOrCalendar.csv', na_values=['?'],header=0)
 df["features"] = df["X-From"].map(str)
 X=df['features']
 y=df['class']
@@ -16,11 +17,11 @@ y=df['class']
 
 ########################DESCRIPTORS############################################
 
-X=tf_idf(X)
+X=descriptors.tf_idf(X)
 
 #######################MODEL##################################################
 
-grid = decision_tree(X,y)
+grid = model.decision_tree(X,y)
 
 #######################RESULTS##################################################
 

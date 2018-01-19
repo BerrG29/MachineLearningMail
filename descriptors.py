@@ -20,7 +20,10 @@ def tokenize(text):
 """
 
 def tf_idf(X):
-	#vectorizer = TfidfVectorizer(tokenizer=tokenize,sublinear_tf=True,stop_words='english')
-	vectorizer = TfidfVectorizer(sublinear_tf=True,stop_words='english')
-	return vectorizer.fit_transform(X)
+    #vectorizer = TfidfVectorizer(tokenizer=tokenize,sublinear_tf=True,stop_words='english')
+    vectorizer = TfidfVectorizer(sublinear_tf=True,stop_words='english')
+    return vectorizer.fit_transform(X)
 
+def frequence(X):
+    vectorizer=CountVectorizer(stop_words='english')
+    X= vectorizer.fit_transform(X)

@@ -23,5 +23,5 @@ def tf_idf(X):
     return vectorizer.fit_transform(X)
 
 def frequence(X):
-    vectorizer=CountVectorizer(stop_words='english')
+    vectorizer=CountVectorizer(tokenizer=tokenize, stop_words='english')
     X= vectorizer.fit_transform(X)

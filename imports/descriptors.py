@@ -1,5 +1,6 @@
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 import nltk
+from nltk.stem import PorterStemmer
 ########################DESCRIPTORS##############################################
 
 nltk.download('punkt')
@@ -19,9 +20,9 @@ def tokenize(text):
 
 def tf_idf(X):
     vectorizer = TfidfVectorizer(tokenizer=tokenize,sublinear_tf=True,stop_words='english')
-    vectorizer = TfidfVectorizer(sublinear_tf=True,stop_words='english')
+    #vectorizer = TfidfVectorizer(sublinear_tf=True,stop_words='english')
     return vectorizer.fit_transform(X)
 
 def frequence(X):
-    vectorizer=CountVectorizer(tokenizer=tokenize, stop_words='english')
-    X= vectorizer.fit_transform(X)
+    vectorizer=CountVectorizer(tokenizer=tokenize,stop_words='english')
+    return vectorizer.fit_transform(X)

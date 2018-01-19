@@ -3,6 +3,8 @@ import numpy as np
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import GridSearchCV
 from sklearn.grid_search import GridSearchCV
+import imports
+from imports import descriptors, model
 
 dataSets=['../kaminiski_unbalanced_600_50.csv','../all_balanced.csv','../all_unbalanced_100.csv','../kaminski_unbalanced_50.csv', '../all_multiplePerson.csv','../all_unbalanced_2600_1000.csv']
 
@@ -13,15 +15,14 @@ for dataSet in dataSets:
     X=df['features']
     y=df['class']
 
-
     ########################DESCRIPTORS############################################
     X=tf_idf(X)
 
     #######################MODEL##################################################
-
-    grid = decision_tree(X,y)
+    X=descriptors.tf_idf(X)
 
     #######################RESULTS##################################################
+    grid = model.decision_tree(X,y)
 
     print("The best model for: "+dataSets)
     print("- best score  : {}\n".format(grid.best_score_))

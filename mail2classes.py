@@ -1,34 +1,64 @@
 import pandas as pd
 import numpy as np
+from time import time
 from sklearn.model_selection import cross_val_score
-#from sklearn.model_selection import GridSearchCV
-from sklearn.grid_search import GridSearchCV
+from sklearn.model_selection import GridSearchCV
 import imports
-from imports import descriptors, model
+from imports import descriptors, model , results
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report
+from sklearn.metrics import confusion_matrix
+from sklearn.svm import SVC
 
 #dataSets=['../kaminski_unbalanced_600_50.csv','../all_balanced_100_predictable.csv','../kaminski_balanced_50.csv', '../all_multiplePerson.csv','../all_unbalanced_2600_1000.csv']
 dataSets=['../kaminski_unbalanced_600_50.csv']
-models_list=['neural_network']
+#dataSets=['../kam_no_risk_no_ei.csv']
+
+#dataSets=['../kaminski_balanced_50.csv']
 
 for dataSet in dataSets:
-    #######################DATASET##################################################
+    ##############################################################################
+    # Dataset
     df = pd.read_csv(dataSet, na_values=['?'],header=0)
-    df["features"] = df[field].map(str)
+    df["features"] = df['content'].map(str)+df['X-From'].map(str)+df['Subject'].map(str)
+    #X=df['stem_tokens']
     X=df['features']
     y=df['class']
+    n_classes=y.unique()
 
-
-    ########################DESCRIPTORS############################################
+    ###############################################################################
+    # Descriptors
     X=descriptors.tf_idf(X)
-    best_grid = model.decision_tree(X,y)
 
-    #######################MODELS##################################################
-    for m in models_list:
-        if(m == "neural_network"):
-            grid = model.neural_network(X,y)
+    # #############################################################################
+    # Split into a training set and a test set using a stratified k fold
 
-    #######################RESULTS##################################################
-        print("The best model for: {}\n".format(dataSet))
-        print("- best score  : {}\n".format(best_grid.best_score_))
-        print("- best params : {}\n".format(best_grid.best_params_))
-        print("- best estimator : {}\n".format(best_grid.best_estimator_))
+    # split into a training and testing set
+    X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.25, random_state=42)
+
+    # #############################################################################
+    # Train classification model
+
+    print("Fitting the classifier to the training set")
+    t0 = time()
+    clf=model.keras(X.shape[1])
+    clf = clf.fit(X_train, y_train)
+    print("done in %0.3fs" % (time() - t0))
+    print("The best model for: {}\n".format(dataSet))
+    print("- best score  : {}\n".format(clf.best_score_))
+    print("- best params : {}\n".format(clf.best_params_))
+    print("- best estimator : {}\n".format(clf.best_estimator_))
+
+    # #############################################################################
+    # Quantitative evaluation of the model quality on the test set
+
+    print("Predicting mail folder on the test set")
+    t0 = time()
+    y_pred = clf.predict(X_test)
+    print("done in %0.3fs" % (time() - t0))
+
+    print(classification_report(y_test, y_pred, labels=n_classes))
+    results.plot_confusion_matrix(confusion_matrix(y_test, y_pred, labels=n_classes), n_classes, title='Confusion matrix, without normalization')
+    #F1 score : the harmonic mean of precision and recall
+    # support : The number of occurrences of each label in y_true

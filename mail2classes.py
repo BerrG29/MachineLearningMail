@@ -8,7 +8,6 @@ from imports import descriptors, model , results
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
-from sklearn.svm import SVC
 
 #dataSets=['../kaminski_unbalanced_600_50.csv','../all_balanced_100_predictable.csv','../kaminski_balanced_50.csv', '../all_multiplePerson.csv','../all_unbalanced_2600_1000.csv']
 dataSets=['../kaminski_unbalanced_600_50.csv']
@@ -42,8 +41,14 @@ for dataSet in dataSets:
 
     print("Fitting the classifier to the training set")
     t0 = time()
-    clf=model.keras(X.shape[1])
-    clf = clf.fit(X_train, y_train)
+    #clf=model.keras(X.shape[1])
+    #clf = clf.fit(X_train, y_train)
+    clf=model.decision_tree( X_train,y_train)
+    #clf=model.naiveBayes(X_train,y_train)
+    #clf= model.SVM()
+    #clf = clf.fit(X_train, y_train)
+    #clf=model.neural_network();
+    #clf=clf.fit(X_train, y_train)
     print("done in %0.3fs" % (time() - t0))
     print("The best model for: {}\n".format(dataSet))
     print("- best score  : {}\n".format(clf.best_score_))

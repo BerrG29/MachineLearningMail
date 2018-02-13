@@ -1,4 +1,4 @@
-from sklearn.naive_bayes import GaussianNB
+from sklearn.naive_bayes import MultinomialNB, GaussianNB, BernoulliNB
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import GridSearchCV
@@ -6,37 +6,60 @@ import keras
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation
 from keras.optimizers import SGD
+from sklearn import svm
 
 
-def naiveBayes():
-    #Naive bayes Gaussian
-    grid = GridSearchCV(GaussianNB(), cv=10, param_grid=param_grid)
-    return grid
+def naiveBayes(X,Y):
+    models={'gaussian':GaussianNB(),'bernoulli': BernoulliNB(),'multinomial':MultinomialNB()}
+    param_grid_bernoulli={'alpha': [0.0, 0.5, 1.0],
+                'binarize':[0.2, 0.5, 0.7, 1.0],
+                'fit_prior': [True, False]
+    }
+    param_grid_multinomial={'alpha': [0.0, 0.5, 1.0],
+                'fit_prior': [True, False]
+    }
+    grid_resultat=[]
+    score_precedent=0
+    for modele in models:
+        if modele=='gaussian':
+            grid = GridSearchCV(models[modele], param_grid={}, cv=5)
+            resu=grid.fit(X.toarray(),Y)
+        elif modele=='bernoulli':
+            grid = GridSearchCV(models[modele], param_grid=param_grid_bernoulli, cv=5)
+            resu=grid.fit(X.toarray(),Y)
+        else:
+            grid = GridSearchCV(models[modele], param_grid=param_grid_multinomial, cv=5)
+            resu=grid.fit(X.toarray(),Y)
+            
+        if grid.best_score_ > score_precedent:
+           score_precedent=grid.best_score_
+           grid_resultat= resu
+    return grid_resultat
 
 def decision_tree(X,y):
     param_grid = {
         'criterion': ['gini','entropy'], 
-        'splitter': ['best','random']
+        'splitter': ['best','random'],
+        'max_depth':[10,20,30,40,50]
     }
     dtc = DecisionTreeClassifier(random_state=0)
-    grid = GridSearchCV(dtc, cv=10, param_grid=param_grid)
+    grid = GridSearchCV(dtc, cv=5, param_grid=param_grid)
     return  grid.fit(X,y)
 
-def neural_network():
-    #parameters = {'hidden_layer_sizes ': [(100,),(100,100), (100,100,100)], 'alpha':[10.0 ** -np.arange(1, 7)], 'activation':('identity', 'logist$
-    parameters = {'activation':('relu','logistic')}
-    clf=MLPClassifier()
-    clf = GridSearchCV(nn, parameters)
-    grid = GridSearchCV(pipe, cv=3, n_jobs=1, param_grid=param_grid)
-    return grid
 
 def SVM():
-     #param_grid = {'C': [1e3, 5e3, 1e4, 5e4, 1e5,],
-     #         'gamma': [0.0001, 0.0005, 0.001, 0.005, 0.01, 0.1], }
     param_grid= {'kernel':['rbf','linear','sigmoid','poly'],'degree':[1,2,3,4],'C':[1,10,100,1000],'gamma': [0.1,0.01,1,0.001]}
-    #param_grid = {'C': [1e2],
-              #'gamma': [0.01], }
-    return GridSearchCV(SVC(class_weight='balanced'), param_grid)
+    clf=svm.SVC(class_weight='balanced')
+    return GridSearchCV(clf,cv=2,param_grid=param_grid)
+
+def neural_network():
+     param_grid= {'hidden_layer_sizes':[(7, 7), (60,), (60, 7)],
+                                        'activation':['identity', 'logistic', 'tanh', 'relu'],
+                                        'solver':['lbfgs', 'sgd', 'adam'],
+                                        'learning_rate' : ['constant', 'invscaling', 'adaptive']}
+     clf = MLPClassifier()
+     grid=GridSearchCV(clf,cv=5, param_grid=param_grid)
+     return grid
 
 def keras(dim):
     model = Sequential()

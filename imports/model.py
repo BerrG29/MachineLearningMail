@@ -2,10 +2,10 @@ from sklearn.naive_bayes import MultinomialNB, GaussianNB, BernoulliNB
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neural_network import MLPClassifier
 from sklearn.model_selection import GridSearchCV
-import keras
-from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation
-from keras.optimizers import SGD
+#import keras
+#from keras.models import Sequential
+#from keras.layers import Dense, Dropout, Activation
+#from keras.optimizers import SGD
 from sklearn import svm
 
 

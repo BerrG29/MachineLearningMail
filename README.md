@@ -8,7 +8,7 @@ Il est possible de modifier plusieurs paramètres de ce programme :
 
 1) le dataset :
 Le ou les datasets sur lesquels travailera le programme peuvent être modifié directement dans la variable : datasets du fichier mail2directory.py.
-A noter qu'il y a plusieurs datasets disponible : all1, all2, all3, kaminski1, kaminski2 qui sont présentés dans le rapport
+A noter qu'il y a plusieurs datasets disponible : all1, all2, all3, kaminski1, kaminski2 qui sont présentés dans le rapport. Ils sont présent dans le fichier data
 
 2) le descripteur :
 Pour modifier la partie descripteurs, il faut décommenter les descripteurs que l'ont veut lancer dans la partie # Descriptors

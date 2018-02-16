@@ -51,7 +51,7 @@ def SVM():
     #best params directly
     param_grid= {'kernel':['sigmoid'],'degree':[1],'C':[10],'gamma': [1]}
     clf=svm.SVC(class_weight='balanced')
-    return GridSearchCV(clf,cv=2,param_grid=param_grid)
+    return GridSearchCV(clf,cv=5,param_grid=param_grid)
 
 def neural_network():
      param_grid= {'hidden_layer_sizes':[(7, 7), (60,), (60, 7)],
@@ -62,19 +62,19 @@ def neural_network():
      grid=GridSearchCV(clf,cv=5, param_grid=param_grid)
      return grid
 
-def keras(dim):
-    model = Sequential()
-    # Dense(64) is a fully-connected layer with 64 hidden units.
-    # in the first layer, you must specify the expected input data shape:
-    # here, 20-dimensional vectors.
-    model.add(Dense(64, activation='relu', input_dim=dim))
-    model.add(Dropout(0.5))
-    model.add(Dense(64, activation='relu'))
-    model.add(Dropout(0.5))
-    model.add(Dense(10, activation='softmax'))
+# def keras(dim):
+#     model = Sequential()
+#     # Dense(64) is a fully-connected layer with 64 hidden units.
+#     # in the first layer, you must specify the expected input data shape:
+#     # here, 20-dimensional vectors.
+#     model.add(Dense(64, activation='relu', input_dim=dim))
+#     model.add(Dropout(0.5))
+#     model.add(Dense(64, activation='relu'))
+#     model.add(Dropout(0.5))
+#     model.add(Dense(10, activation='softmax'))
 
-    sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
-    model.compile(loss='categorical_crossentropy',
-                  optimizer=sgd,
-                  metrics=['accuracy'])
-    return model
+#     sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+#     model.compile(loss='categorical_crossentropy',
+#                   optimizer=sgd,
+#                   metrics=['accuracy'])
+#     return model

@@ -47,7 +47,9 @@ def decision_tree(X,y):
     return  grid.fit(X,y)
 
 def SVM():
-    param_grid= {'kernel':['rbf','linear','sigmoid','poly'],'degree':[1,2,3,4],'C':[1,10,100,1000],'gamma': [0.1,0.01,1,0.001]}
+    #param_grid= {'kernel':['rbf','linear','sigmoid','poly'],'degree':[1,2,3,4],'C':[1,10,100,1000],'gamma': [0.1,0.01,1,0.001]}
+    #best params directly
+    param_grid= {'kernel':['sigmoid'],'degree':[1],'C':[10],'gamma': [1]}
     clf=svm.SVC(class_weight='balanced')
     return GridSearchCV(clf,cv=2,param_grid=param_grid)
 

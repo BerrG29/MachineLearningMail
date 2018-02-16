@@ -11,11 +11,8 @@ from sklearn.metrics import confusion_matrix
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
 
-#dataSets=['../kaminski_unbalanced_600_50.csv','../all_balanced_100_predictable.csv','../kaminski_balanced_50.csv', '../all_multiplePerson.csv','../all_unbalanced_2600_1000.csv']
-dataSets=['../kaminski_unbalanced_600_50.csv']
-#dataSets=['../kam_no_risk_no_ei.csv']
-
-#dataSets=['../kaminski_balanced_50.csv']
+#dataSets=['../all1.csv','../all2.csv','../all3.csv','../kaminski1.csv','../kaminski2.csv',]
+dataSets=['../kaminski2.csv']
 
 for dataSet in dataSets:
     ##############################################################################
@@ -30,6 +27,7 @@ for dataSet in dataSets:
     ###############################################################################
     # Descriptors
     X=descriptors.tf_idf(X)
+    #X=descriptors.frequence(X)
 
     # #############################################################################
     # Split into a training set and a test set using a stratified k fold
@@ -42,14 +40,21 @@ for dataSet in dataSets:
 
     print("Fitting the classifier to the training set")
     t0 = time()
+    ## test Keras
     #clf=model.keras(X.shape[1])
     #clf = clf.fit(X_train, y_train)
-    clf=model.decision_tree( X_train,y_train)
+    ## test decision tree
+    #clf=model.decision_tree( X_train,y_train)
+    ## test naive bayes
     #clf=model.naiveBayes(X_train,y_train)
-    #clf= model.SVM()
-    #clf = clf.fit(X_train, y_train)
+    ## test svm
+    clf= model.SVM()
+    clf = clf.fit(X_train, y_train)
+    ## test neural network
     #clf=model.neural_network();
     #clf=clf.fit(X_train, y_train)
+
+
     print("done in %0.3fs" % (time() - t0))
     print("The best model for: {}\n".format(dataSet))
     print("- best score  : {}\n".format(clf.best_score_))

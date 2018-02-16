@@ -8,8 +8,7 @@ from sklearn.model_selection import train_test_split
 from time import time
 from sklearn.metrics import accuracy_score
 
-#dataSets=['../kaminski_unbalanced_600_50.csv','../all_balanced_100_predictable.csv','../kaminski_balanced_50.csv', '../all_multiplePerson.csv','../all_unbalanced_2600_1000.csv']
-dataSets=['../kaminski_unbalanced_600_50.csv']
+dataSets=['./data/all1.csv']
 fieldToTest=['content','X-From','Subject','all']
 descriptors_list=['tf_idf','frequence']
 

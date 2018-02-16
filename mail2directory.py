@@ -12,7 +12,7 @@ from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
 
 #dataSets=['../all1.csv','../all2.csv','../all3.csv','../kaminski1.csv','../kaminski2.csv',]
-dataSets=['./data/kaminski2.csv']
+dataSets=['./data/kaminski1.csv']
 
 for dataSet in dataSets:
     ##############################################################################

@@ -1,7 +1,7 @@
 # MachineLearningMail
 Rangement automatique de mails
 
-La premiere étape avant de lancer le programme est de dezipper l'archive data.
+La premiere étape avant de lancer le programme est de dezipper l'archive 'data'. Attention le chemin que nous avons prévu dans le programme est : ./data il se peut qu'en dezippant, les données se trouvent dans le dossier ./data/data.
 
 Pour lancer le programme il suffit de lancer la commande :
 python3 mail2directory.py

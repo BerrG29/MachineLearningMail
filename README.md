@@ -1,6 +1,8 @@
 # MachineLearningMail
 Rangement automatique de mails
 
+La premiere étape avant de lancer le programme est de dezipper l'archive data.
+
 Pour lancer le programme il suffit de lancer la commande :
 python3 mail2directory.py
 
